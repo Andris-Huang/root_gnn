@@ -21,6 +21,7 @@ if __name__ == "__main__":
     add_arg("--num-workers", help='number of threads', default=1, type=int)
     add_arg("--overwrite", action='store_true',
         help='specifies whether to overwrite existing files with same outname pattern')
+    add_arg("--connectivity", help='create graph with different types of connectivity, default is fully-connected', default=None, choices=['disconnected', 'KNN'])
 
     args = parser.parse_args()
     n_evts_per_record = args.evts_per_record
@@ -30,6 +31,7 @@ if __name__ == "__main__":
     print("Output Name {}".format(outname))
     print("{} events per record".format(n_evts_per_record))
     print("Data type:", args.type)
+    print("Graph type:", "Disconnected"
     print("# of workers:", args.num_workers)
 
     out_dir = os.path.abspath(os.path.dirname(outname))
@@ -69,7 +71,7 @@ if __name__ == "__main__":
     print("GOING TO PROCESS NOW") 
     data.process(filename=args.input_file, outname=outname,\
         n_evts_per_record=n_evts_per_record, debug=args.debug,
-        max_evts=args.max_evts, num_workers=args.num_workers, overwrite = args.overwrite)
+        max_evts=args.max_evts, num_workers=args.num_workers, overwrite=args.overwrite, connectivity=args.connectivity)
     
     read_time = time.time() - now
     print("{} finished in {:.1f} mins".format(data.__class__.__name__, read_time/60.))
